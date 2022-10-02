@@ -10,7 +10,16 @@
 using namespace std ;
 
 void solve() {
-    cout << 1 << endl ; 
+    int n ; 
+    cin >> n ; 
+    vector<int> a(n) ; 
+    for (int &i : a)    cin >> i ; 
+    int _min = *min_element(a.begin() , a.end()) ; 
+    int ans = 0 ; 
+    for (int i : a) {
+        ans += ((i + (2 * _min) - 2) / ((2 * _min) - 1)) - 1 ;
+    }
+    cout << ans << endl ;
 }
 
 int32_t main() {

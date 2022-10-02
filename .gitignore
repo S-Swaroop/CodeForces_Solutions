@@ -1,1 +1,12 @@
 *.exe
+env
+/rough.py
+/A.cpp
+/B.cpp
+/C.cpp
+/D.cpp
+/E.cpp
+/F.cpp
+/INPUT.txt
+/OUTPUT.txt
+/file_manager.py
