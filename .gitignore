@@ -1,5 +1,7 @@
 *.exe
 env
+.vscode
+/template.cpp
 /rough.py
 /A.cpp
 /B.cpp
