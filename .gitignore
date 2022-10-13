@@ -9,6 +9,7 @@ env
 /D.cpp
 /E.cpp
 /F.cpp
+/G.cpp
 /INPUT.txt
 /OUTPUT.txt
 /file_manager.py
