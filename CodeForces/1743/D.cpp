@@ -10,91 +10,45 @@
 #define debug(x) cerr << #x << " : " << x << endl ;
 using namespace std ;
 
-struct TrieNode {
-    struct TrieNode* children[2] ;
-    bool isEndOfWord ;
-    TrieNode() {
-        this->isEndOfWord = false ;
-        this->children[0] = this->children[1] = nullptr ;
+string OR (string a , string b) {
+    if (a.size() > b.size()) {
+        swap(a , b) ;
     }
-};
-
-void insert(struct TrieNode *root , string key) {
-    struct TrieNode *pCrawl = root ;
-    for (int i = 0 ; i < key.length() ; i++) {
-        int index = (key[i] - '0') ;
-        if (!pCrawl->children[index]) {
-            pCrawl->children[index] = new TrieNode() ;
-        }
-        pCrawl = pCrawl->children[index] ;
+    reverse(a.begin() , a.end()) ;
+    while (a.size() < b.size()) {
+        a += '0' ;
     }
-    pCrawl->isEndOfWord = true;
-}
-
-int dfs (int curr , string &ans , struct TrieNode *root) {
-    if (curr == ans.length() || !root) {
-        return 0 ;
-    } else if (ans[curr] == '0') {
-        if (root->children[1]) {
-            struct TrieNode *c = root->children[1] ;
-            return 1 + dfs (curr + 1 , ans , c) ;
-        } 
-        return 0 ;
-    } else {
-        int res = 0 ;
-        if (root->children[1]) {
-            struct TrieNode *c = root->children[1] ;
-            res = max(res , 1 + dfs (curr + 1 , ans , c)) ;
-        } 
-        if (root->children[0]) {
-            struct TrieNode *c = root->children[0] ;
-            res = max(res , 1 + dfs (curr + 1 , ans , c)) ;
-        } 
-        return res ;
+    reverse(a.begin() , a.end()) ;
+    for (int i = 0 ; i < a.length() ; i++) {
+        a[i] = max(a[i] , b[i]) ;
     }
+    return a ;
 }
 
 void solve() {
-    struct TrieNode *root = new TrieNode() ;
     int n ; 
+    cin >> n ; 
     string s ; 
-    cin >> n >> s ;
-    string s1 , s1complement ;
-    bool found1 = false ;
-    for (int i = 0 ; i < n ; i++) {
-        if (s[i] == '1') {
-            found1 = true ;
-        } else {
-            if (found1) {
-                s1 = s.substr(i) ;
-                break ;
-            }
-        }
-    }
-    if (!found1) {
+    cin >> s ;
+    while (!s.empty() && s[0] == '0')   s.erase(0 , 1) ;
+    if (s.empty()) {
         cout << 0 << endl ; 
         return ;
     }
-    if (s1.empty()) {
-        cout << string(n , '1') << endl ;
-        return ;
-    }
-    int len = s1.length() ;
-    for (int i = 0 ; i + len < n ; i++) {
-        if (s[i] == '1') {
-            insert(root , s.substr(i , len)) ;
+    int len = -1 ; 
+    for (int i = 0 ; i < s.length() ; i++) {
+        if (s[i] == '0') {
+            len = s.length() - i ;
+            break ;
         }
     }
-    string ans = s ; 
-    while (!ans.empty() && ans[0] == '0') {
-        ans.erase(0 , 1) ;
+    if (len == -1) {
+        cout << s << endl ; 
+        return ;
     }
-    int curr = 0 ; 
-    while (curr < ans.length() && ans[curr] == '1')     curr++ ;
-    int x = dfs (curr , ans , root) ;
-    for (int i = curr ; i < ans.length() && x > 0 ; i++) {
-        x-- ;
-        ans[i] = '1' ;
+    string ans = s ; 
+    for (int i = 0 ; i + len - 1 < s.length() ; i++) {
+        ans = max(ans , OR(s , s.substr(i , len))) ;
     }
     cout << ans << endl ;
 }
