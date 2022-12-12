@@ -10,31 +10,37 @@
 #define debug(x) cerr << #x << " : " << x << endl ;
 using namespace std ;
 
-bool check (int x, int y, vector<string> a) {
-    int n = a[0].length(); 
-    while (y < n && a[x][y] == 'B') {
-        if (a[(x + 1) % 2][y] == 'B') {
-            a[x][y] = 'W';
-            x = (x + 1) % 2;
-        } else {
-            a[x][y] = 'W';
-            y++; 
+const int N = 1e7 + 1; 
+
+vector<int> spf(N, 0); // smallest prime factor
+
+void precompute() {
+    for (int i = 2; i < N; i++) {
+        if (!spf[i]) {
+            spf[i] = i; 
+            for (int j = i * i; j <= N; j += i) {
+                spf[j] = i; 
+            }
         }
     }
-    for (int i = 0; i < n; i++) {
-        if (a[0][i] == 'B' || a[1][i] == 'B') {
-            return false; 
-        } 
-    }
-    return true;  
 }
 
 void solve() {
-    int n; 
-    cin >> n; 
-    vector<string> a(2); 
-    cin >> a[0] >> a[1]; 
-    cout << (check(0, 0, a) || check(1, 0, a) ? "YES" : "NO") << endl; 
+    int x, y; 
+    cin >> x >> y;
+    int diff = abs(x - y); 
+    
+    if (diff == 1) {
+        cout << -1 << endl; 
+    } else {
+        int ans = LLONG_MAX; 
+        while (diff > 1) {
+            int X = ((x + spf[diff] - 1) / spf[diff]) * spf[diff]; 
+            ans = min(ans, X - x); 
+            diff /= spf[diff]; 
+        }
+        cout << ans << endl; 
+    }
 }
 
 int32_t main() {
@@ -45,7 +51,7 @@ int32_t main() {
    freopen("INPUT.txt","r",stdin) ;
    freopen("OUTPUT.txt","w",stdout) ;
    #endif
-   
+   precompute();
    int t = 1 ;
    cin >> t ;/*comment this line if no test cases*/
    for(int i = 1 ; i <= t ; i++)   solve() ; 
