@@ -3,6 +3,11 @@
         "iostream": "cpp",
         "cmath": "cpp",
         "valarray": "cpp",
-        "vector": "cpp"
+        "vector": "cpp",
+        "array": "cpp",
+        "deque": "cpp",
+        "list": "cpp",
+        "string": "cpp",
+        "string_view": "cpp"
     }
 }
