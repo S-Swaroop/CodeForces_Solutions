@@ -15,8 +15,8 @@ def write (path , lines) :
 
 def main() : 
     template = read('template.cpp').readlines()
-    file = ['A.cpp' , 'B.cpp' , 'C.cpp' , 'D.cpp' , 'E.cpp' , 'F.cpp' , 'G.cpp'] 
-    for i in range(0 , 7) :
+    file = ['A.cpp' , 'B.cpp' , 'C.cpp' , 'D.cpp' , 'E.cpp' , 'F.cpp' , 'G.cpp', 'H.cpp'] 
+    for i in range(0 , 8) :
         print(file[i])
         write(file[i] , template)
 
